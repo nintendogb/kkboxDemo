@@ -20,3 +20,20 @@ def getValueFromUrlForWebPlayer(url):
         return 'Error had happen'
     else:
         return unicodeStr
+
+
+def checkIfTypeExist(list):
+    artist = False
+    song = False
+    playlist = False
+
+    for i in range(len(list)):
+        print list[i]
+        if u'歌手' in list[i]:
+            artist = True
+        elif u'歌曲' in list[i]:
+            song = True
+        elif u'歌單' in list[i]:
+            playlist = True
+
+    return artist, song, playlist

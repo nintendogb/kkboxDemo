@@ -9,12 +9,12 @@ ${SEARCH_BAR}    id=pm-search-keywords
 ${ENTER}    \\13
 *** Keywords ***
 Open KKBOX Website
-    Open Browser    https://www.kkbox.com/    chrome     alias=google
+    Open Browser    https://www.kkbox.com/    chrome     alias=indexPage
 
 Get Value From URL
     [Arguments]    ${parameter_name}
     ${url}    Get Location
-    ${value}    lib.getValueFromURL    ${parameter_name}    ${url}
+    ${value}    lib.getValueFromURLForKkbox    ${parameter_name}    ${url}
     [Return]    ${value}
 
 Search Specific Type Of Content

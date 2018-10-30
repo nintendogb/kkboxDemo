@@ -10,7 +10,7 @@ def getValueFromUrlForKkbox(index, url):
         return word
 
 from urllib2 import unquote
-def getValueFromUrlForWebPlayer(url):
+def getDecodeValueFromUrlForWebPlayer(url):
     try:
         index = url.rindex('/')
         word = url[(index + 1):]

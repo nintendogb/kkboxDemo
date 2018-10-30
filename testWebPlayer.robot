@@ -103,11 +103,21 @@ Check Result Of Url Search
 
 
 
-Test Search By Type
+Check Search By Type
     [Arguments]    ${type}   ${typeExist}    ${pattern}    ${notTestUrlSearch}
     Run Keyword If    ${typeExist}['${type}Button']    Check More Content    ${type}    ${pattern}
     Check Result Of Url Search    ${SHOULD_EXIST}    ${type}    ${pattern}    ${notTestUrlSearch}
 
+Examine Search Function
+    [Arguments]    ${pattern}    ${notTestUrlSearch}
+    ${resultTypeList}    Get Type of Search Results
+    ${existDict}    lib.checkIfTypeExist    ${resultTypeList}
+    Run Keyword If    ${existDict}['artist']    Check Search By Type    artist    ${existDict}    ${pattern}    ${notTestUrlSearch}
+    ...    ELSE    Check Result Of Url Search    ${SHOULD_NOT_EXIST}    artist    ${pattern}    ${notTestUrlSearch}    
+    Run Keyword If    ${existDict}['song']    Check Search By Type    song    ${existDict}    ${pattern}    ${notTestUrlSearch}
+    ...    ELSE    Check Result Of Url Search    ${SHOULD_NOT_EXIST}    song    ${pattern}    ${notTestUrlSearch}
+    Run Keyword If    ${existDict}['playlist']    Check Search By Type    playlist    ${existDict}    ${pattern}    ${notTestUrlSearch}
+    ...    ELSE    Check Result Of Url Search    ${SHOULD_NOT_EXIST}    playlist    ${pattern}    ${notTestUrlSearch} 
 
 Test Search Function
     [Arguments]    ${pattern}    ${notTestUrlSearch}
@@ -117,18 +127,8 @@ Test Search Function
     Url Keyword Should Same As Input After Decode    ${pattern}
     Wait Until Page Contains    ${SEARCH_RESULT_PROMPT} ${pattern}    timeout=${REFRESH_TIMEOUT}
     Capture Page Screenshot
-    ${resultTypeList}    Get Type of Search Results
-    ${existDict}    lib.checkIfTypeExist    ${resultTypeList}
-    Run Keyword If    ${existDict}['artist']    Test Search By Type    artist    ${existDict}    ${pattern}    ${notTestUrlSearch}
-    ...    ELSE    Check Result Of Url Search    ${SHOULD_NOT_EXIST}    artist    ${pattern}    ${notTestUrlSearch}    
-    Run Keyword If    ${existDict}['song']    Test Search By Type    song    ${existDict}    ${pattern}    ${notTestUrlSearch}
-    ...    ELSE    Check Result Of Url Search    ${SHOULD_NOT_EXIST}    song    ${pattern}    ${notTestUrlSearch}
-    Run Keyword If    ${existDict}['playlist']    Test Search By Type    playlist    ${existDict}    ${pattern}    ${notTestUrlSearch}
-    ...    ELSE    Check Result Of Url Search    ${SHOULD_NOT_EXIST}    playlist    ${pattern}    ${notTestUrlSearch}  
-    
-
-
-    
+    Examine Search Function    ${pattern}    ${notTestUrlSearch}
+   
 *** Test Cases ***
 Search Test
     Login Web Player

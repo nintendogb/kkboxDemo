@@ -2,7 +2,7 @@
 Library     Selenium2Library
 Library    Collections
 Test Setup    Open KKBOX Web Player
-#Test Teardown     close all browsers
+Test Teardown     close all browsers
 Library    ./lib.py    WITH NAME    lib
 *** Variables ***
 ${USER}    test@gmail.com
@@ -50,7 +50,8 @@ Test Search Function
     Wait Until Page Contains    ${SEARCH_RESULT_PROMPT} ${pattern}    timeout=${REFRESH_TIMEOUT}
     Capture Page Screenshot
     ${resultTypeList}    Get Type of Search Results
-    ${artistExist}    ${songExist}    ${playListExist}    lib.checkIfTypeExist    ${resultTypeList}
+    ${existDict}    lib.checkIfTypeExist    ${resultTypeList}
+    Log    ${existDict}
     
 
 

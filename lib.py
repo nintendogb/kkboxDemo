@@ -21,19 +21,32 @@ def getValueFromUrlForWebPlayer(url):
     else:
         return unicodeStr
 
+def isMoreButtonExist(text):
+    if u'更多' in text:
+        return True
+    else:
+        return False
 
 def checkIfTypeExist(list):
-    artist = False
-    song = False
-    playlist = False
+    itemExist = { 
+        'artist': False,  
+        'song': False,  
+        'playlist': False,  
+        'artistButton': False,  
+        'songButton': False,  
+        'playlistButton': False  
+    }
 
     for i in range(len(list)):
         print list[i]
         if u'歌手' in list[i]:
-            artist = True
+            itemExist['artist'] = True
+            itemExist['artistButton'] = isMoreButtonExist(list[i])
         elif u'歌曲' in list[i]:
-            song = True
+            itemExist['song'] = True
+            itemExist['songButton'] = isMoreButtonExist(list[i])
         elif u'歌單' in list[i]:
-            playlist = True
+            itemExist['playlist'] = True
+            itemExist['playlistButton'] = isMoreButtonExist(list[i])
 
-    return artist, song, playlist
+    return itemExist

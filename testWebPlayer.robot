@@ -15,6 +15,12 @@ ${SEARCH_BUTTON}    xpath=//*[@id="search_btn_cnt"]/i
 ${REFRESH_TIMEOUT}    10
 ${SEARCH_RESULT_PROMPT}    您搜尋的關鍵字為
 ${RESULT_FRAMER}    xpath=//*[@class="results"]
+${MORE_ARTIST_BUTTON}    //*[@ng-click="app.go('search/artist', {keyword:search.keyword})"]
+${MORE_SONG_BUTTON}    //*[@ng-click="app.go('search/song', {keyword:search.keyword})"]
+${MORE_PLAYLIST_BUTTON}    //*[@ng-click="app.go('search/playlist', {keyword:search.keyword})"]
+#${BACK}    //*[@class="results"][last()]/div[1]
+${BACK}    //*[@class="main-content"]/following::div[1]
+
 *** Keywords ***
 Open KKBOX Web Player
     Open Browser    https://play.kkbox.com/    chrome     alias=webPlayer
@@ -40,6 +46,22 @@ Get Type of Search Results
     Log       ${resultTypeList}
     [Return]    ${resultTypeList}
 
+Test Click More
+    [Arguments]    ${type}    ${pattern}
+    ${button}    Set Variable If
+    ...    '${type}' == 'artist'    ${MORE_ARTIST_BUTTON}
+    ...    '${type}' == 'song'    ${MORE_SONG_BUTTON}
+    ...    '${type}' == 'playlist'    ${MORE_PLAYLIST_BUTTON}
+
+    Click Element    ${button}
+    Wait Until Page Contains    ${SEARCH_RESULT_PROMPT} ${pattern}    timeout=${REFRESH_TIMEOUT}
+    Click Element At Coordinates    ${BACK}    5    5
+    Sleep    1
+
+Test Search By Type
+    [Arguments]    ${type}   ${typeExist}    ${pattern}
+    Run Keyword If    ${typeExist}['${type}Button']    Test Click More    ${type}    ${pattern}
+
 
 Test Search Function
     [Arguments]    ${pattern}
@@ -51,7 +73,9 @@ Test Search Function
     Capture Page Screenshot
     ${resultTypeList}    Get Type of Search Results
     ${existDict}    lib.checkIfTypeExist    ${resultTypeList}
-    Log    ${existDict}
+    Run Keyword If    ${existDict}['artist']    Test Search By Type    artist    ${existDict}    ${pattern}  
+    Run Keyword If    ${existDict}['song']    Test Search By Type    song    ${existDict}    ${pattern}  
+    Run Keyword If    ${existDict}['playlist']    Test Search By Type    playlist    ${existDict}    ${pattern}  
     
 
 

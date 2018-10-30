@@ -38,7 +38,6 @@ def checkIfTypeExist(list):
     }
 
     for i in range(len(list)):
-        print list[i]
         if u'歌手' in list[i]:
             itemExist['artist'] = True
             itemExist['artistButton'] = isMoreButtonExist(list[i])

@@ -27,7 +27,7 @@ ${RESULT_FRAMER}    xpath=//*[@class="results"]
 ${MORE_FRAMER}    xpath=//*[@class="search-more-framer"]
 
 ${BACK}    xpath=//*[@class="main-content"]/following::div[1]
-${AD_CLOSE}    xpath=//*[@class="close"]
+${AD_CLOSE}    xpath=(.//*[normalize-space(text()) and normalize-space(.)='這歌目前還沒有歌詞'])[1]/following::img[1]
 ${FIRST_ARTIST}    xpath=//*[@class="cards artists"]/child::li
 ${FIRST_PLAYLIST}    xpath=//*[@class="cards"]/child::li
 ${FIRST_SONG}    xpath=//*[@ng-class="{'playing' : app.checkPlayingSong(song.song_id)}"]
